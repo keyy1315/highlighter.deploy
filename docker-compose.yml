@@ -1,13 +1,13 @@
 services:
   highlighter-demo.api:
-    image: keyy1315/highlighter-demo.api:dev-latest
+    image: ${IMAGE_NAME}:${TIMESTAMP}
     container_name: highlighter-demo.api
     ports:
     - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/lol
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: user
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     depends_on:
       mariadb:
         condition: service_healthy
@@ -20,7 +20,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MARIADB_ROOT_PASSWORD: root
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
