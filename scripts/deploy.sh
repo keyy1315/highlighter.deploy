@@ -23,9 +23,9 @@ echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-st
 # 소스 클론 및 이미지 빌드
 # -----------------------
 echo "📦 Cloning API repo..."
-rm -rf highlighter-demo.api
+rm -rf highL-demo.api
 git clone "$API_REPO_URL"
-cd highlighter-demo.api
+cd highL-demo.api
 
 echo "🔨 Building Docker image..."
 docker build -t "$IMAGE_NAME:latest" .
@@ -34,7 +34,7 @@ echo "🚀 Pushing image to Docker Hub..."
 docker push "$IMAGE_NAME:latest"
 
 cd ..
-rm -rf highlighter-demo.api
+rm -rf highL-demo.api
 
 # -----------------------
 # docker-compose 실행
