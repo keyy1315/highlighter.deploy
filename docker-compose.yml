@@ -1,16 +1,24 @@
 services:
   highlighter-demo.api:
-    image: ${IMAGE_NAME}:${TIMESTAMP}
+    image: keyy1315/highlighter-demo.api:latest
     container_name: highlighter-demo.api
     ports:
     - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/lol
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user
     depends_on:
       mariadb:
         condition: service_healthy
+    networks:
+      - highlighter-network
+  highlighter-fast.api:
+    image: keyy1315/highlighter-fast.api:latest
+    container_name: highlighter-fast.api
+    ports:
+      - "8082:8082"
+    command: uvicorn app:app --host 0.0.0.0 --port 8082
     networks:
       - highlighter-network
 
@@ -20,7 +28,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: root
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -38,7 +46,6 @@ services:
     networks:
       - highlighter-network
     restart: always
-
 volumes:
   highlighter-vol-db: {}
 networks:
